@@ -46,7 +46,7 @@ func (r *retryClient) IsObjectNamespaced(obj runtime.Object) (bool, error) {
 }
 
 func (r *retryClient) Get(ctx context.Context, key client.ObjectKey, obj client.Object, opts ...client.GetOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Get(ctx, key, obj, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -56,7 +56,7 @@ func (r *retryClient) Get(ctx context.Context, key client.ObjectKey, obj client.
 }
 
 func (r *retryClient) List(ctx context.Context, list client.ObjectList, opts ...client.ListOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.List(ctx, list, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -66,7 +66,7 @@ func (r *retryClient) List(ctx context.Context, list client.ObjectList, opts ...
 }
 
 func (r *retryClient) Create(ctx context.Context, obj client.Object, opts ...client.CreateOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Create(ctx, obj, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -76,7 +76,7 @@ func (r *retryClient) Create(ctx context.Context, obj client.Object, opts ...cli
 }
 
 func (r *retryClient) Delete(ctx context.Context, obj client.Object, opts ...client.DeleteOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Delete(ctx, obj, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -86,7 +86,7 @@ func (r *retryClient) Delete(ctx context.Context, obj client.Object, opts ...cli
 }
 
 func (r *retryClient) Update(ctx context.Context, obj client.Object, opts ...client.UpdateOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Update(ctx, obj, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -96,7 +96,7 @@ func (r *retryClient) Update(ctx context.Context, obj client.Object, opts ...cli
 }
 
 func (r *retryClient) Patch(ctx context.Context, obj client.Object, patch client.Patch, opts ...client.PatchOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Patch(ctx, obj, patch, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -106,7 +106,7 @@ func (r *retryClient) Patch(ctx context.Context, obj client.Object, patch client
 }
 
 func (r *retryClient) DeleteAllOf(ctx context.Context, obj client.Object, opts ...client.DeleteAllOfOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.DeleteAllOf(ctx, obj, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -140,7 +140,7 @@ type retrySubResourceWriter struct {
 var _ client.SubResourceWriter = &retrySubResourceWriter{}
 
 func (r *retrySubResourceWriter) Create(ctx context.Context, obj client.Object, subResource client.Object, opts ...client.SubResourceCreateOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Create(ctx, obj, subResource, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -150,7 +150,7 @@ func (r *retrySubResourceWriter) Create(ctx context.Context, obj client.Object, 
 }
 
 func (r *retrySubResourceWriter) Update(ctx context.Context, obj client.Object, opts ...client.SubResourceUpdateOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Update(ctx, obj, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -160,7 +160,7 @@ func (r *retrySubResourceWriter) Update(ctx context.Context, obj client.Object, 
 }
 
 func (r *retrySubResourceWriter) Patch(ctx context.Context, obj client.Object, patch client.Patch, opts ...client.SubResourcePatchOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Patch(ctx, obj, patch, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -178,7 +178,7 @@ type retrySubResourceClient struct {
 var _ client.SubResourceClient = &retrySubResourceClient{}
 
 func (r *retrySubResourceClient) Get(ctx context.Context, obj client.Object, subResource client.Object, opts ...client.SubResourceGetOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Get(ctx, obj, subResource, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -188,7 +188,7 @@ func (r *retrySubResourceClient) Get(ctx context.Context, obj client.Object, sub
 }
 
 func (r *retrySubResourceClient) Create(ctx context.Context, obj client.Object, subResource client.Object, opts ...client.SubResourceCreateOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Create(ctx, obj, subResource, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -198,7 +198,7 @@ func (r *retrySubResourceClient) Create(ctx context.Context, obj client.Object, 
 }
 
 func (r *retrySubResourceClient) Update(ctx context.Context, obj client.Object, opts ...client.SubResourceUpdateOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Update(ctx, obj, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
@@ -208,7 +208,7 @@ func (r *retrySubResourceClient) Update(ctx context.Context, obj client.Object, 
 }
 
 func (r *retrySubResourceClient) Patch(ctx context.Context, obj client.Object, patch client.Patch, opts ...client.SubResourcePatchOption) (apierror error) {
-	_ = wait.PollUntilContextTimeout(ctx, r.timeout, r.interval, true, func(ctx context.Context) (done bool, err error) {
+	_ = wait.PollUntilContextTimeout(ctx, r.interval, r.timeout, true, func(ctx context.Context) (done bool, err error) {
 		apierror = r.d.Patch(ctx, obj, patch, opts...)
 		err = apierror
 		done = err == nil || !errors.Is(err, io.EOF)
