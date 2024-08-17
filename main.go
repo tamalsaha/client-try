@@ -2,7 +2,10 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"io"
+	"net/url"
 
 	core "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -61,6 +64,15 @@ func useKubebuilderClient() error {
 	var pglist core.NamespaceList
 	err = kc.List(context.TODO(), &pglist)
 	if err != nil {
+		var ur *url.Error
+		if errors.As(err, &ur) {
+			fmt.Println(ur.Temporary())
+		}
+
+		if errors.Is(err, io.EOF) {
+			fmt.Println("EOF")
+		}
+
 		return err
 	}
 	for _, db := range pglist.Items {
