@@ -21,7 +21,11 @@ type retryClient struct {
 
 var _ client.Client = &retryClient{}
 
-func NewRetryClient(d client.Client, interval time.Duration, timeout time.Duration) client.Client {
+func NewRetryClient(d client.Client) client.Client {
+	return &retryClient{d: d, interval: 500 * time.Millisecond, timeout: 5 * time.Minute}
+}
+
+func NewRetryClientWithOptions(d client.Client, interval time.Duration, timeout time.Duration) client.Client {
 	return &retryClient{d: d, interval: interval, timeout: timeout}
 }
 

@@ -35,7 +35,7 @@ func NewClient() (client.Client, error) {
 		return nil, err
 	}
 
-	return client.New(cfg, client.Options{
+	kc, err := client.New(cfg, client.Options{
 		Scheme: scheme,
 		Mapper: mapper,
 		//Opts: client.WarningHandlerOptions{
@@ -43,6 +43,10 @@ func NewClient() (client.Client, error) {
 		//	AllowDuplicateLogs: false,
 		//},
 	})
+	if err != nil {
+		return nil, err
+	}
+	return NewRetryClient(kc), nil
 }
 
 func main() {
